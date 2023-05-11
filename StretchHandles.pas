@@ -194,11 +194,16 @@ begin
       { initialize when first child is attached }
       if FChildList.Count = 0 then
         begin
-          Parent := ChildControl.Parent;
-          { only make it visible now, to avoid color flashing, & accept events }
-          FDragRect := Rect(0, 0, 0, 0);
-          Enabled := True;
-          Visible := True;
+          try
+            Parent := ChildControl.Parent;
+            { only make it visible now, to avoid color flashing, & accept events }
+            FDragRect := Rect(0, 0, 0, 0);
+            Enabled := True;
+            Visible := True;
+
+          finally
+
+          end;
           inherited SetBounds(ChildControl.Left - 2, ChildControl.Top - 2, ChildControl.Width + 5, ChildControl.Height + 5);
 
         end
@@ -223,7 +228,7 @@ begin
           { allow us to get Mouse events immediately! }
           SetCapture(Handle);
           { get keyboard events }
-          if Visible and Enabled then
+          if Visible and Enabled and ChildControl.Parent.Focused then
             SetFocus;
         end;
 
@@ -396,7 +401,9 @@ begin
 
     end
   else
-    ForwardMessage(fmMouseUp, Button, Shift, Left + X, Top + Y);
+    inherited MouseUp(Button, Shift, X, Y);
+
+  // ForwardMessage(fmMouseUp, Button, Shift, Left + X, Top + Y);
 
 end;
 
@@ -540,37 +547,40 @@ begin
   AMessage.WParam := 0;
   { determine whether X, Y is over any other windowed control }
   Found := False;
-  for i := 0 to Parent.ControlCount - 1 do
+  if Parent <> nil then
     begin
-      AControl := TControl(Parent.Controls[i]);
-      if (AControl is TWinControl) and not(AControl is TStretchHandle) then
+      for i := 0 to Parent.ControlCount - 1 do
         begin
-          ARect := Rect(AControl.Left,
-            AControl.Top,
-            AControl.Left + AControl.Width,
-            AControl.Top + AControl.Height);
-          { X, Y are relative to Parent }
-          if PtInRect(ARect, Point(X, Y)) then
+          AControl := TControl(Parent.Controls[i]);
+          if (AControl is TwinControl) and not(AControl is TStretchHandle) then
             begin
-              Found := True;
-              break;
+              ARect := Rect(AControl.Left,
+                AControl.Top,
+                AControl.Left + AControl.Width,
+                AControl.Top + AControl.Height);
+              { X, Y are relative to Parent }
+              if PtInRect(ARect, Point(X, Y)) then
+                begin
+                  Found := True;
+                  break;
+                end;
             end;
         end;
-    end;
-  { forward the message to the control if found, else to the Parent }
-  if Found then
-    begin
-      AMessage.LParamLo := X - AControl.Left;
-      AMessage.LParamHi := Y - AControl.Top;
-      SendMessage(TWinControl(AControl).Handle, Msg, AMessage.WParam, AMessage.LParam);
-    end
-  else
-    begin
-      AMessage.LParamLo := X;
-      AMessage.LParamHi := Y;
-      SendMessage(Parent.Handle, Msg, AMessage.WParam, AMessage.LParam);
-    end;
+      { forward the message to the control if found, else to the Parent }
+      if Found then
+        begin
+          AMessage.LParamLo := X - AControl.Left;
+          AMessage.LParamHi := Y - AControl.Top;
+          SendMessage(TwinControl(AControl).Handle, Msg, AMessage.WParam, AMessage.LParam);
+        end
+      else
+        begin
+          AMessage.LParamLo := X;
+          AMessage.LParamHi := Y;
+          SendMessage(Parent.Handle, Msg, AMessage.WParam, AMessage.LParam);
+        end;
 
+    end;
 end;
 
 procedure TStretchHandle.KeyDown(var key: Word; Shift: TShiftState);
