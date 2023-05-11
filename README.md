@@ -6,21 +6,21 @@ For Delphi 11 and Windows 10/11
 This Repository is for creating an updated version of this original post :
 https://torry.net/authorsmore.php?id=532
 
-TStretchHandle v.2.0
+        TStretchHandle v.2.0
 
-Components > Tools > Tools
+        Components > Tools > Tools
 
-By Anthony Scott.
-Freeware + source 23 Jan 1996
-Description
-The TStretchHandle component for Delphi has been significantly improved over its early incarnation as an experimental first component. Version 2.0 has better support for manipulating multiple child components, features more consistent visual behaviour, and has been tested with both Windows 3.1 and Windows 95.
-Informations
+        By Anthony Scott.
+        Freeware + source 23 Jan 1996
+        Description
+        The TStretchHandle component for Delphi has been significantly improved over its early incarnation as an experimental first component. Version 2.0 has better support for manipulating multiple child components, features more consistent visual behaviour, and has been tested with both Windows 3.1 and Windows 95.
+        Informations
 
-    Status: Fully functional
-    Source: Included
-    Size: 15kB
+            Status: Fully functional
+            Source: Included
+            Size: 15kB
 
-Platforms: D1
+        Platforms: D1
 
 
 
