@@ -31,4 +31,7 @@ I modify it in two modification
 - Make it support Delphi 11
     Even if the program is from 1996 it's working good on Windows 11 with the latest version of Delphi (11.3 as my last test)
     
-I've commit the original file as a first commit so you can compare my modification for the Delphi 11 version
+I've commit the original file as a first commit so you can compare my modification for the Delphi 11 version (wich is more debug than adaptation)
+You will see that a 1996 Delphi file is still simple and relevant in 2023
+
+Thanks to Anthony Scott for the original part
