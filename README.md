@@ -1,6 +1,7 @@
 # TStretchHandle
 Strech Handle to move/resize component in Runtime
 
+For Delphi 11 and Windows 10/11 
 
 This Repository is for creating an updated version of this original post :
 https://torry.net/authorsmore.php?id=532
